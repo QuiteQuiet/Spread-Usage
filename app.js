@@ -39,7 +39,7 @@ app.get('/usage', function(req, res) {
 		res.end(data, 'utf-8');
 	});
 	if (error) {
-		console.log(error);
+		res.send(error);
 	}
 });
 
