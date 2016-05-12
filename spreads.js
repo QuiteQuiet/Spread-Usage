@@ -45,7 +45,7 @@ exports.getSetUsage = function(pokemon, tier, weight, month, year, callback, ign
 		exports.request(url, function(error, response, html) {
 			let data = '';
 			if (error) {
-				console.log(error);
+				return error;
 			} else {
 				data = parseUsageChaos(pokemon, ignoreNature, html);
 			}
@@ -55,7 +55,9 @@ exports.getSetUsage = function(pokemon, tier, weight, month, year, callback, ign
 			return null;
 		});
 	} else {
+		// This cannot feasibly create errors, because we have the data already
 		callback(parseUsageChaos(pokemon, ignoreNature,fileData));
+		return null;
 	}
 }
 
