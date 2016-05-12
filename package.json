@@ -1,0 +1,15 @@
+{
+  "name"         : "Usage-Counting",
+  "version"      : "0.0.1",
+  "description"  : "Count usage stats from /chaos.",
+  "main"         : "spreads.js",
+  "author"       : "Quite Quiet",
+  "main" 		  : "app.js",
+  "scripts"		  : {
+  	 "start": "node app.js"
+  },
+  "dependencies" : {
+    "request"    : "latest",
+    "express"    : "latest"
+  }
+}

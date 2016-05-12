@@ -1,0 +1,87 @@
+body {
+	font-family: sans-serif;
+	background-color: #EDEDED;
+}
+.header {
+	background-color: rgba(109, 105, 154, 0.5);
+	padding-left: 6px;
+	padding-top: 8px;
+	margin: -8px -8px 8px -8px;
+	-webkit-box-shadow: 0px 0px 6px 2px #000000;
+		-moz-box-shadow: 0px 0px 6px 2px #000000;
+			box-shadow: 0px 0px 6px 2px #000000;
+}
+.header h1 {
+	padding-bottom: 2px;
+	margin: 0 0 10px 0;
+}
+
+/* Input section */
+.input {
+	padding: 8px 0 6px 6px;
+	margin: -8px -8px 8px -8px;
+	border-bottom: 1px solid black;
+}
+
+.getinput input[type=text] {
+	font-size: 24px;
+	padding: 3px;
+	border: 1px solid black;
+	border-radius: 2px;
+}
+.getinput input[type=number], 
+.getinput select {
+	font-size: 24px;
+	padding: 3px;
+	border: 1px solid black;
+	border-radius: 2px;
+}
+.getinput  input[type=submit]{
+	font-size: 18px;
+	border: 1px solid black;
+	border-radius: 4px;
+}
+
+.getinput  th{
+	text-align: left;
+	font-size: 18px;
+}
+
+/* Results */
+
+.usage {
+	margin-top: 6px;
+}
+#error {
+	color: red;
+	font-weight: bold;
+	font-size: 18px;
+	border: 1px solid red;
+	border-radius: 2px;
+	padding: 2px;
+}
+.spreads {
+	position: absolute;
+	width: 99%;
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+.spreads tr {
+	text-align: left;
+}
+.spreads tr.odd-row {
+	background-color: rgba(109, 105, 154, 0.4);
+	
+}
+.spreads th#num {
+	width: 10%;
+}
+.spreads th#nature {
+	width: 25%;
+}
+.spreads th#evs {
+	width: 50%;
+}
+.spreads th#percent {
+	width: auto;
+}

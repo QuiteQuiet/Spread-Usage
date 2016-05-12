@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<link rel="stylesheet" href="style.css" />
+		<title>EV Spread Usage</title>
+	</head>
+	<body>
+		<div class="header">
+			<h1>EV Spread and Nature usage</h1>
+		</div>
+		<div class="input">
+			<form class="getinput" id="queryform">
+				<table>
+					<tr>
+						<th>Pok&eacute;mon:</th>
+						<th>Tier:</th>
+						<th>Weight:</th>
+						<th>Month:</th>
+						<th>Year:</th>
+					</tr>
+					<tr>
+						<td><input type="text" name="pokemon" /></td>
+						<td><input type="text" name="tier" /></td>
+						<td><select name="weight">
+								<option value="0">0</option>
+								<option value="1500" selected>1500</option>
+								<option value="1630">1630</option>
+								<option value="1760">1760</option>
+							</select>
+						</td>
+						<td>
+							<select name="month">
+								<option value="01">Jan</option>
+								<option value="02">Feb</option>
+								<option value="03">Mar</option>
+								<option value="04">Apr</option>
+								<option value="05">May</option>
+								<option value="06">Jun</option>
+								<option value="07">Jul</option>
+								<option value="08">Aug</option>
+								<option value="09">Sep</option>
+								<option value="10">Oct</option>
+								<option value="11">Nov</option>
+								<option value="12">Dec</option>
+							</select>
+						</td>
+						<td><input type="number" value="2016" name="year" min="2010" max="2016" step="1" /></td>
+					</tr>
+					<tr>
+						<td><input type="submit" value="Get Usage" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div class="usage">
+			<table class="spreads">
+				<tr>
+					<th id="num">#</th>
+					<th id="nature">Nature</th>
+					<th id="evs">EVs</th>
+					<th id="percent">Percent</th>
+				</tr>
+			</table>
+		</div>
+		<script src="jquery-2.1.4.min.js"></script>
+		<script src="query.js"></script>
+		<script>
+
+		</script>
+	</body>
+</html>
