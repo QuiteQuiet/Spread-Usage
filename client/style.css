@@ -82,6 +82,10 @@ body {
 .spreads th#evs {
 	width: 50%;
 }
+.spreads th#evs span {
+	font-weight: normal;
+	font-size: 14px;
+}
 .spreads th#percent {
 	width: auto;
 }
