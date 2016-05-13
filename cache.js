@@ -30,7 +30,7 @@ exports.Cache = class Cache {
 			if (err) {
 				console.log('Didn\'t save' + err);
 			}
-			console.log('Cached: cache/' + tier + '-' + weight);
+			console.log('Cached: cache/' + year + '-' + month + '-' + tier + '-' + weight);
 		});
 	};
 	trySaveCache(data, tier, weight, month, year) {
