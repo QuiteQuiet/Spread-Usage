@@ -60,10 +60,8 @@ exports.UsageCounter = class UsageCounter {
 					data = error;
 				} else {
 					try {
-						console.log(url);
 						data = self.parseUsageChaos(pokemon, ignoreNature, html);
 					} catch (e) {
-						console.log(e);
 						// The only error we should be catching here is invalid json
 						// which probably means the file didn't exist.
 						data = 'Invalid data recieved (perhaps the file you asked for doesn\'t exist?)';
