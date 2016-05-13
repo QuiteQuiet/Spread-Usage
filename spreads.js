@@ -45,17 +45,24 @@ exports.getSetUsage = function(pokemon, tier, weight, month, year, callback, ign
 		exports.request(url, function(error, response, html) {
 			let data = '';
 			if (error) {
-				return error;
+				data = error;
 			} else {
-				data = parseUsageChaos(pokemon, ignoreNature, html);
+				try {
+					data = parseUsageChaos(pokemon, ignoreNature, html);
+				} catch (e) {
+					// The only error we should be catching here is invalid json
+					// which probably means the file didn't exist.
+					data = 'Invalid data recieved (perhaps the file you asked for doesn\'t exist?)';
+				}
 			}
 			callback(data);
-			// Cache this file for future use
-			Cache.trySaveCache(html, tier, weight, month, year);
-			return null;
+			// Cache this file for future use, if it wasn't an error
+			if (data.indexOf('|') >= 0) {
+				Cache.trySaveCache(html, tier, weight, month, year);
+			}
 		});
 	} else {
-		// This cannot feasibly create errors, because we have the data already
+		// This cannot feasibly create errors, because we have validated the data already
 		callback(parseUsageChaos(pokemon, ignoreNature,fileData));
 		return null;
 	}
@@ -66,6 +73,7 @@ function parseUsageChaos(pokemon, ignoreNature, chaos) {
 	let json = JSON.parse(chaos);
 	let data = json['data'];
 	let sum = 0;
+	if (data[pokemon] === undefined) return 'No information found for ' + pokemon + ' in the specified tier.';
 	let sets = data[pokemon]['Spreads'];
 
 	// Get the total sum for percentages

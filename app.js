@@ -35,13 +35,10 @@ app.get('/usage', function(req, res) {
 
 	// Everything should be valid data here
 	console.log('Fetching information: ' + pokemon + ' in ' + tier + '-' + weight + '.');
-	let error = Usage.getSetUsage(pokemon, tier, weight, month, year, function(data) {
+	Usage.getSetUsage(pokemon, tier, weight, month, year, function(data) {
 		res.writeHead(200, {'Content-Type': 'text/plain'});
 		res.end(data, 'utf-8');
 	});
-	if (error) {
-		res.send(error);
-	}
 });
 
 // This is all we need to do then...
