@@ -3,7 +3,7 @@
 exports.Cache = class Cache {
 	constructor (restrictSize) {
 		this.fs = require('fs');
-		this.restrictCacheSize = restrictSize;
+		this.restrictedCache = restrictSize;
 		this.maxCacheFiles = 10;
 		this.path = __dirname + '/cache/';
 	};
@@ -24,7 +24,7 @@ exports.Cache = class Cache {
 	};
 
 	saveCacheFile(cache, tier, weight, month, year) {
-		if (this.restrictCacheSize) this.restrictCacheSize();
+		if (this.restrictedCache) this.restrictCacheSize();
 		// Save a fetched file to cache so we can speed up future requests
 		this.fs.writeFile(this.makePath(tier, weight, month, year), cache, 'utf8', function(err) {
 			if (err) {
