@@ -1,9 +1,10 @@
 'use strict';
 
+let uc = require('./spreads.js');
 let Pokedex = require('./pokedex.js').Pokedex;
-let Usage = require('./spreads.js');
 let express = require('express');
 let app = express();
+let Usage = new uc.UsageCounter();
 
 app.use(express.static(__dirname + '/client'));
 app.get('/', function(req, res) {
@@ -33,6 +34,7 @@ app.get('/usage', function(req, res) {
 	let year = (query.year ? query.year : '' + new Date().getFullYear());
 	if (month.length > 2) month = '0' + month;
 
+	if (query.d) Usage.setDeviation(query.d);
 	// Everything should be valid data here
 	console.log('Fetching information: ' + pokemon + ' in ' + tier + '-' + weight + '.');
 	Usage.getSetUsage(pokemon, tier, weight, month, year, function(data) {
