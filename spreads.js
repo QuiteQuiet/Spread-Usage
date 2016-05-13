@@ -53,6 +53,7 @@ exports.UsageCounter = class UsageCounter {
 		let fileData = this.Cache.tryLoadCache(tier, weight, month, year);
 		if (fileData === '') {
 			let self = this;
+			console.log('Fetching information: ' + pokemon + ' in ' + tier + '-' + weight + '.');
 			this.request(url, function(error, response, html) {
 				let data = '';
 				if (error) {
@@ -76,6 +77,7 @@ exports.UsageCounter = class UsageCounter {
 			});
 		} else {
 			// This cannot feasibly create errors, because we have validated the data already
+			console.log('Using cached information: ' + pokemon + ' in ' + tier + '-' + weight + '.');
 			callback(this.parseUsageChaos(pokemon, ignoreNature,fileData));
 			return null;
 		}

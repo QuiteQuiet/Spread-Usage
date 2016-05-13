@@ -36,7 +36,6 @@ app.get('/usage', function(req, res) {
 
 	if (query.d) Usage.setDeviation(query.d);
 	// Everything should be valid data here
-	console.log('Fetching information: ' + pokemon + ' in ' + tier + '-' + weight + '.');
 	Usage.getSetUsage(pokemon, tier, weight, month, year, function(data) {
 		res.writeHead(200, {'Content-Type': 'text/plain'});
 		res.end(data, 'utf-8');
