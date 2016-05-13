@@ -4,7 +4,7 @@ let uc = require('./spreads.js');
 let Pokedex = require('./pokedex.js').Pokedex;
 let express = require('express');
 let app = express();
-let Usage = new uc.UsageCounter();
+let Usage = new uc.UsageCounter(true);
 
 app.use(express.static(__dirname + '/client'));
 app.get('/', function(req, res) {

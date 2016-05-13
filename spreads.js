@@ -96,7 +96,7 @@ exports.UsageCounter = class UsageCounter {
 		for (let set in sets) {
 			sets[set] = (sets[set] / sum) * 100;
 		}
-		let sorted = Object.keys(sets).sort(function (a, b) { return sets[b] - sets[a]; });
+		let sorted = Object.keys(sets).sort(function(a, b) { return sets[b] - sets[a]; });
 
 		// combine similar sets into the most common one
 		// what this does is loop through the array, and for each

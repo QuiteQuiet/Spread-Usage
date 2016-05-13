@@ -1,11 +1,14 @@
 'use strict';
 
 exports.Cache = class Cache {
-	constructor () {
+	constructor (restrictSize) {
 		this.fs = require('fs');
+		this.restrictCacheSize = restrictSize;
+		this.maxCacheFiles = 10;
+		this.path = __dirname + '/cache/';
 	};
 	makePath(tier, weight, month, year) {
-		return  __dirname + '/cache/' + year + '-' + month + '-' + tier + '-' + weight + '.json';
+		return this.path + year + '-' + month + '-' + tier + '-' + weight + '.json';
 	};
 
 	loadCacheFile(tier, weight, month, year) {
@@ -21,6 +24,7 @@ exports.Cache = class Cache {
 	};
 
 	saveCacheFile(cache, tier, weight, month, year) {
+		if (this.restrictCacheSize) this.restrictCacheSize();
 		// Save a fetched file to cache so we can speed up future requests
 		this.fs.writeFile(this.makePath(tier, weight, month, year), cache, 'utf8', function(err) {
 			if (err) {
@@ -38,13 +42,49 @@ exports.Cache = class Cache {
 		}
 	};
 
-	delCachedFile(tier, weight, month, year) {
-		// Probably not needed, but delete a cached file
-		// Requires #checkCache to be called first
-		return this.fs.unlinkSync(this.makePath(tier, weight, month, year));
+	restrictCacheSize() {
+		let self = this;
+		this.fs.readdir(this.path, function(err, files) {
+			// Cache files doesn't include .gitignore
+			files = files.filter(function(el) { return el !== '.gitignore' });
+			if (files.length >= self.maxCacheFiles) {
+				// Get the oldest cached file from the current ones (files created after this point is ignored)
+				// oldest = the file with the oldest last accessed time
+				let old = self.findOldestFile(files);
+				self.delCachedFile(old);
+			}
+		});
+	};
+	findOldestFile(files) {
+		// Files should be longer than 1, so this is safe
+		let oldest = this.path + files[0];
+		let oldDate = new Date(this.fs.statSync(oldest)['atime']);
+		let test;
+		for (let i = 1, len = files.length; i < len; i++) {
+			files[i] = this.path + files[i];
+			test = new Date(this.fs.statSync(files[i])['atime']);
+			if (test < oldDate) {
+				oldest = files[i];
+				oldTime = test;
+			}
+		}
+		return oldest;
+	};
+
+	delCachedFile(path) {
+		// Delete a cached file
+		return this.fs.unlinkSync(path);
 	};
 
 	purgeCacheFiles() {
-		// Clears everything from cache
+		// Clear everything from cache (except .gitignore)
+		let self = this;
+		this.fs.readdir(this.path, function(err, files) {
+			// Cache files doesn't include .gitignore
+			files = files.filter(function(el) { return el !== '.gitignore' });
+			for (let i = 0, len = files.length; i < len; i++) {
+				self.delCachedFile(self.path + files[i]);
+			}
+		});
 	};
-}
+};
