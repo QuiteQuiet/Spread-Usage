@@ -14,11 +14,12 @@ app.get('/', function(req, res) {
 app.get('/usage', function(req, res) {
 	let query = req.query;
 	// Read and validate query
-	if (!query.pokemon) res.send("No Pok&eacute;mon Specified");
+	if (!query.pokemon) return res.send("No Pok&eacute;mon Specified");
+
 	let pokemon = toId(query.pokemon);
 	// If existing pokemon
 	if (Pokedex[pokemon] === undefined) {
-		res.send("Pok&eacute;mon not found (or it's a typo?).");
+		return res.send("Pok&eacute;mon not found (or it's a typo?).");
 	} else {
 		pokemon = Pokedex[pokemon];
 	}
@@ -26,7 +27,7 @@ app.get('/usage', function(req, res) {
 	let weight = (query.weight ? query.weight : (tier == 'ou' ? '1695' : '1630'));
 	let allowedWeights = (tier === 'ou' ? {'0':1,'1500':1,'1695':1,'1825':1} : {'0':1,'1500':1,'1630':1,'1760':1});
 	if (!(weight in allowedWeights)) {
-		res.send('Invalid weight specified (' + weight + ') for tier: ' + tier);
+		return res.send('Invalid weight specified (' + weight + ') for tier: ' + tier);
 	}
 	let month = (query.month ? query.month : '' + (new Date().getMonth() - 1));
 	let year = (query.year ? query.year : '' + new Date().getFullYear());
