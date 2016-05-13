@@ -24,7 +24,7 @@ exports.UsageCounter = class UsageCounter {
 		return parseFloat(num.toString().slice(0, 6));
 	};
 
-	getSpreadUsag(pokemon, tier, weight, month, year, callback) {
+	getSpreadUsage(pokemon, tier, weight, month, year, callback) {
 		return this.getSetUsage(pokemon, tier, weight, month, year, callback, true);
 	};
 	getSetUsage(pokemon, tier, weight, month, year, callback, ignoreNature) {
