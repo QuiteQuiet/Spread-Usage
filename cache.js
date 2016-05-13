@@ -65,7 +65,7 @@ exports.Cache = class Cache {
 			test = new Date(this.fs.statSync(files[i])['atime']);
 			if (test < oldDate) {
 				oldest = files[i];
-				oldTime = test;
+				oldDate = test;
 			}
 		}
 		return oldest;

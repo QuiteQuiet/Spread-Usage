@@ -7,7 +7,7 @@ global.toId = function(text) {
 }
 exports.UsageCounter = class UsageCounter {
 	constructor() {
-		this.Cache = new ch.Cache();
+		this.Cache = new ch.Cache(true);
 		this.request = require('request');
 		this.deviation = 24;
 		this.percentBorder = 0.001;
