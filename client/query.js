@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	$('.spreads').hide();
 	$('.getinput input[name=tier]').on('input propertychange paste', function() {
 		var text = $(this).val().substr(0, 2).toLowerCase();
 		var options = document.getElementsByName('weight')[0].options;
@@ -18,7 +19,14 @@ $(document).ready(function() {
 		e.preventDefault();
 		// Delete the current usage fields
 		$('.spreads').find('tr').slice(1).remove();
-		$('p#error').remove();
+		$('.spreads').hide();
+		$('div#error').remove();
+
+		// Show some form of loading progress
+		$('.notices').append('<div id="loading">Please wait.</div>');
+		window.LoadingIntervalId = setInterval(function() {
+			$('#loading').append('.');
+		}, 2000);
 		// Server deals with empty fields just fine, let's just roll with it
 		var data = $(this).serialize();
 		$.ajax({
@@ -29,12 +37,17 @@ $(document).ready(function() {
 		});
 	});
 });
-
+function clearLoading() {
+	clearInterval(window.LoadingIntervalId);
+	$('#loading').remove();
+}
 function renderResult(resp) {
+	clearLoading();
 	if (resp.indexOf('|') < 0) {
-		$('.usage').prepend('<p id="error">' + resp + '</p>');
+		$('.notices').append('<div id="error">' + resp + '</div>');
 		return;
 	}
+	$('.spreads').show();
 	var data = resp.split('|');
 	var buff = '';
 	// Build a html structure from the information

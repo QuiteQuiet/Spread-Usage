@@ -48,16 +48,22 @@ body {
 }
 
 /* Results */
-
-.usage {
+.usage, .notices {
 	margin-top: 6px;
 }
 #error {
+	border: 1px solid red;
+	border-radius: 2px;
 	color: red;
 	font-weight: bold;
 	font-size: 18px;
-	border: 1px solid red;
+	padding: 2px;
+}
+#loading {
 	border-radius: 2px;
+	color: rgba(109, 105, 154, 1.0);
+	font-weight: bold;
+	font-size: 18px;
 	padding: 2px;
 }
 .spreads {
