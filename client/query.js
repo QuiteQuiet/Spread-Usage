@@ -17,6 +17,8 @@ $(document).ready(function() {
 	});
 	$('#queryform').submit(function(e) {
 		e.preventDefault();
+		if (window.AwaitingResponse) return;
+		window.AwaitingResponse = true;
 		// Delete the current usage fields
 		$('.spreads').find('tr').slice(1).remove();
 		$('.spreads').hide();
@@ -40,6 +42,7 @@ $(document).ready(function() {
 function clearLoading() {
 	clearInterval(window.LoadingIntervalId);
 	$('#loading').remove();
+	window.AwaitingResponse = false;
 }
 function renderResult(resp) {
 	clearLoading();
