@@ -5,11 +5,38 @@ exports.Cache = class Cache {
 		this.fs = require('fs');
 		this.restrictedCache = restrictSize;
 		this.maxCacheFiles = 10;
+		this.accessingFiles = false;
 		this.path = __dirname + '/cache/';
 	};
 	makePath(tier, weight, month, year) {
 		return this.path + year + '-' + month + '-' + tier + '-' + weight + '.json';
 	};
+	waitForClear() {
+		while (this.accessingFiles);
+		return;
+	};
+	safeFileAccess(act, args) {
+		this.waitForClear();
+		var something;
+		this.accessingFiles = true;
+		try {
+			switch (act) {
+			case 'read':
+				something = this.loadCacheFile(args[0], args[1], args[2], args[3]);
+				break;
+			case 'write':
+				this.saveCacheFile(args[4], args[0], args[1], args[2], args[3]);
+				break;
+			}
+		} catch (e) {
+			// Cache#loadCacheFile and Cache#saveCacheFile both throw errors at some point
+			// To avoid an endless access operation, set this to false then re-throw the error
+			this.accessingFiles = false;
+			throw e;
+		}
+		this.accessingFiles = false;
+		return something;
+	}
 
 	loadCacheFile(tier, weight, month, year) {
 		// Load a cached file instead of re-fetching it from stats
@@ -17,7 +44,7 @@ exports.Cache = class Cache {
 	};
 	tryLoadCache(tier, weight, month, year) {
 		try {
-			return this.loadCacheFile(tier, weight, month, year);
+			return this.safeFileAccess('read', [tier, weight, month, year]);
 		} catch (e) {
 			return '';
 		}
@@ -35,7 +62,7 @@ exports.Cache = class Cache {
 	};
 	trySaveCache(data, tier, weight, month, year) {
 		try {
-			this.saveCacheFile(data, tier, weight, month, year);
+			this.safeFileAccess('write', [tier, weight, month, year, data]);
 			return true;
 		} catch (e) {
 			return false;
