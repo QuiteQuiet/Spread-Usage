@@ -26,13 +26,12 @@ exports.Cache = class Cache {
 				break;
 			case 'write':
 				this.saveCacheFile(args[4], args[0], args[1], args[2], args[3]);
+				something = true;
 				break;
 			}
 		} catch (e) {
 			// Cache#loadCacheFile and Cache#saveCacheFile both throw errors at some point
-			// To avoid an endless access operation, set this to false then re-throw the error
-			this.accessingFiles = false;
-			throw e;
+			something = null;
 		}
 		this.accessingFiles = false;
 		return something;
@@ -43,11 +42,7 @@ exports.Cache = class Cache {
 		return this.fs.readFileSync(this.makePath(tier, weight, month, year), 'utf8');
 	};
 	tryLoadCache(tier, weight, month, year) {
-		try {
-			return this.safeFileAccess('read', [tier, weight, month, year]);
-		} catch (e) {
-			return '';
-		}
+		return this.safeFileAccess('read', [tier, weight, month, year]);
 	};
 
 	saveCacheFile(cache, tier, weight, month, year) {
@@ -61,12 +56,7 @@ exports.Cache = class Cache {
 		});
 	};
 	trySaveCache(data, tier, weight, month, year) {
-		try {
-			this.safeFileAccess('write', [tier, weight, month, year, data]);
-			return true;
-		} catch (e) {
-			return false;
-		}
+		return this.safeFileAccess('write', [tier, weight, month, year, data]);
 	};
 
 	restrictCacheSize() {

@@ -51,7 +51,7 @@ exports.UsageCounter = class UsageCounter {
 
 		// Fetch the information from PS or cache (if we have it)
 		let fileData = this.Cache.tryLoadCache(tier, weight, month, year);
-		if (fileData === '') {
+		if (!fileData) {
 			let self = this;
 			console.log('Fetching information: ' + pokemon + ' in ' + tier + '-' + weight + '.');
 			this.request(url, function(error, response, html) {
